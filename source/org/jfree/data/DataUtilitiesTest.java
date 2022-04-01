@@ -130,10 +130,10 @@ public class DataUtilitiesTest extends TestCase {
 	public void testCalculateRowTotal_ValidDataWithInvalidNegativeColumn() {
 		String message = "Negative value input for column so should throw IndexOutOfBoundsException";
 		
-		int column = -2;
+		int row = -2;
 		
 		try {
-			DataUtilities.calculateColumnTotal(values2D, column);
+			DataUtilities.calculateRowTotal(values2D, row);
 			fail("No exception thrown - Expected outcome was: a thrown exception of type: IndexOutOfBoundsException");
 		}
 		catch (Exception e) {
@@ -144,10 +144,10 @@ public class DataUtilitiesTest extends TestCase {
 	public void testCalculateRowTotal_ValidDataWithValidColumn() {
 		String message = "Sum of column did not equal expected outcome";
 		
-		int column = 0;
+		int row = 0;
 		
 		double expected = 5.0;
-		double actual = DataUtilities.calculateColumnTotal(values2D, column);
+		double actual = DataUtilities.calculateRowTotal(values2D, row);
 		
 		assertEquals(message, expected, actual);
 	}
@@ -155,10 +155,10 @@ public class DataUtilitiesTest extends TestCase {
 	public void testCalculateRowTotal_ValidDataWithInvalidColumnGreaterTanDataLength() {
 		String message = "Should throw IndexOutOfBoundsException";
 		
-		int column = 4;
+		int row = 4;
 		
 		try {
-			DataUtilities.calculateColumnTotal(values2D, column);
+			DataUtilities.calculateRowTotal(values2D, row);
 			fail("No exception thrown - Expected outcome was: a thrown exception of type: IndexOutOfBoundsException");
 		}
 		catch (Exception e) {
@@ -169,10 +169,10 @@ public class DataUtilitiesTest extends TestCase {
 	public void testCalculateRowTotal_InvalidDataWithInvalidNegativeColumn() {
 		String message = "Invalid data input so should throw InvalidParameterException";
 		
-		int column = -3;
+		int row = -3;
 		
 		try {
-			DataUtilities.calculateColumnTotal(null, column);
+			DataUtilities.calculateRowTotal(null, row);
 			fail("No exception thrown - Expected outcome was: a thrown exception of type: InvalidParameterException");
 		}
 		catch (Exception e) {
@@ -183,10 +183,10 @@ public class DataUtilitiesTest extends TestCase {
 	public void testCalculateRowTotal_InvalidDataWithValidColumn() {
 		String message = "Invalid data input so should throw InvalidParameterException";
 		
-		int column = 0;
+		int row = 0;
 		
 		try {
-			DataUtilities.calculateColumnTotal(null, column);
+			DataUtilities.calculateRowTotal(null, row);
 			fail("No exception thrown - Expected outcome was: a thrown exception of type: InvalidParameterException");
 		}
 		catch (Exception e) {
@@ -197,10 +197,10 @@ public class DataUtilitiesTest extends TestCase {
 	public void testCalculateRowTotal_InvalidDataWithInvalidColumnGreaterTanDataLength() {
 		String message = "Should throw IndexOutOfBoundsException";
 		
-		int column = 99;
+		int row = 99;
 		
 		try {
-			DataUtilities.calculateColumnTotal(null, column);
+			DataUtilities.calculateRowTotal(null, row);
 			fail("No exception thrown - Expected outcome was: a thrown exception of type: IndexOutOfBoundsException");
 		}
 		catch (Exception e) {
