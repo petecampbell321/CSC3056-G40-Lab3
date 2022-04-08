@@ -289,6 +289,31 @@ public class RangeTest extends TestCase {
 		assertEquals(expected, actual);
 	}
 	
+	// EQUALS TESTING METHODS
+	@Test
+	public void testEquals_NotEqualLower() {
+		Range target = new Range(1, 3);
+		Range falsyRange = new Range(0, 3);
+		
+		assertFalse(target.equals(falsyRange));
+	}
+	@Test
+	public void testEquals_NotEqualUpper() {
+		Range target = new Range(0, 2);
+		Range falsyRange = new Range(0, 3);
+		
+		assertFalse(target.equals(falsyRange));
+	}
+	
+	// HASHCODE TESTING METHODS
+	@Test
+	public void testHashcode_TwoNotEqual() {
+		Range target1 = new Range(0, 2);
+		Range target2 = new Range(3, 5);
+		
+		assertNotSame(target1.hashCode(), target2.hashCode());
+	}
+	
 	// EXPAND TESTING METHODS
 	@Test
 	public void testPositiveExpand() {
