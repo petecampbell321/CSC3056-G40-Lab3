@@ -288,4 +288,72 @@ public class RangeTest extends TestCase {
 		
 		assertEquals(expected, actual);
 	}
+	
+	// EXPAND TESTING METHODS
+	@Test
+	public void testPositiveExpand() {
+		Range target = new Range(2,6);
+		double lowerMargin = 0.25;
+		double upperMargin = 0.5;
+		
+		Range expected = new Range(1.0,8.0);
+		Range actual = Range.expand(target, lowerMargin, upperMargin);
+		
+		assertEquals("Range should expand and return new range", expected, actual);
+		
+	}
+	@Test
+	public void testNegativeExpand() {
+		Range target = new Range(2,6);
+		double lowerMargin = -0.25;
+		double upperMargin = -0.5;
+		
+		Range expected = new Range(3.0,4.0);
+		Range actual = Range.expand(target, lowerMargin, upperMargin);
+		assertEquals("Range should reduce and return new range", expected, actual);
+		
+	}
+	@Test
+	public void testZeroExpand() {
+		Range target = new Range(2,6);
+		double lowerMargin = 0;
+		double upperMargin = 0;
+		
+		Range expected = new Range(2.0,6.0);
+		Range actual = Range.expand(target, lowerMargin, upperMargin);
+		assertEquals("Range should not expand", expected, actual);
+		
+	}
+	// EXPAND TO INCLUDE TESTING METHODS
+	@Test
+	public void testExpandToIncludeNull() {
+		Range target = null;
+		double value = 19;
+		Range expected = new Range(19.0,19.0);
+		if (target == null) {
+			Range actual = Range.expandToInclude(target, value);
+			assertEquals("new range created with lower & upper = value", expected, actual);	
+		}
+	}
+	@Test
+	public void testExpandToIncludeValueLessThanLower() {
+		Range target = new Range(5,12);
+		Range expected = new Range(3.0,12.0);
+		double value = 3;
+		if (value < target.getLowerBound()) {
+			Range actual = Range.expandToInclude(target, value);
+			assertEquals("Range should expand and include value in new range", expected, actual);
+		}
+		
+	}
+	@Test
+	public void testExpandToIncludeValueGreaterThanUpper() {
+		Range target = new Range(5,12);
+		Range expected = new Range(5.0,19.0);
+		double value = 19;
+		if (value > target.getUpperBound()) {
+			Range actual = Range.expandToInclude(target, value);
+			assertEquals("Range should expand and include value in new range", expected, actual);	
+		}
+	}
 }
