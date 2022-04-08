@@ -256,5 +256,36 @@ public class RangeTest extends TestCase {
 		
 		assertEquals(message, expected, actual);
 	}
-
+	
+	// SHIFT TESTING METHODS
+	@Test
+	public void testShift_WithoutZeroCrossing() {
+		Range base = new Range(-2, 2);
+		double delta = 2.0;
+		
+		Range expected = new Range(0, 4);
+		Range actual = Range.shift(base, delta);
+		
+		assertEquals(expected, actual);
+	}
+	@Test
+	public void testShift_WithoutZeroCrossingWithZeroAsBaseLowerBound() {
+		Range base = new Range(0, 2);
+		double delta = 2.0;
+		
+		Range expected = new Range(2, 4);
+		Range actual = Range.shift(base, delta);
+		
+		assertEquals(expected, actual);
+	}
+	@Test
+	public void testShift_WithZeroCrossing() {
+		Range base = new Range(-2, 2);
+		double delta = -2.0;
+		
+		Range expected = new Range(-4, 0);
+		Range actual = Range.shift(base, delta, true);
+		
+		assertEquals(expected, actual);
+	}
 }
