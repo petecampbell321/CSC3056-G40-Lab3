@@ -256,5 +256,129 @@ public class RangeTest extends TestCase {
 		
 		assertEquals(message, expected, actual);
 	}
-
+	
+	// SHIFT TESTING METHODS
+	@Test
+	public void testShift_WithoutZeroCrossing() {
+		Range base = new Range(-2, 2);
+		double delta = 2.0;
+		
+		Range expected = new Range(0, 4);
+		Range actual = Range.shift(base, delta);
+		
+		assertEquals(expected, actual);
+	}
+	@Test
+	public void testShift_WithoutZeroCrossingWithZeroAsBaseLowerBound() {
+		Range base = new Range(0, 2);
+		double delta = 2.0;
+		
+		Range expected = new Range(2, 4);
+		Range actual = Range.shift(base, delta);
+		
+		assertEquals(expected, actual);
+	}
+	@Test
+	public void testShift_WithZeroCrossing() {
+		Range base = new Range(-2, 2);
+		double delta = -2.0;
+		
+		Range expected = new Range(-4, 0);
+		Range actual = Range.shift(base, delta, true);
+		
+		assertEquals(expected, actual);
+	}
+	
+	// EQUALS TESTING METHODS
+	@Test
+	public void testEquals_NotEqualLower() {
+		Range target = new Range(1, 3);
+		Range falsyRange = new Range(0, 3);
+		
+		assertFalse(target.equals(falsyRange));
+	}
+	@Test
+	public void testEquals_NotEqualUpper() {
+		Range target = new Range(0, 2);
+		Range falsyRange = new Range(0, 3);
+		
+		assertFalse(target.equals(falsyRange));
+	}
+	
+	// HASHCODE TESTING METHODS
+	@Test
+	public void testHashcode_TwoNotEqual() {
+		Range target1 = new Range(0, 2);
+		Range target2 = new Range(3, 5);
+		
+		assertNotSame(target1.hashCode(), target2.hashCode());
+	}
+	
+	// EXPAND TESTING METHODS
+	@Test
+	public void testPositiveExpand() {
+		Range target = new Range(2,6);
+		double lowerMargin = 0.25;
+		double upperMargin = 0.5;
+		
+		Range expected = new Range(1.0,8.0);
+		Range actual = Range.expand(target, lowerMargin, upperMargin);
+		
+		assertEquals("Range should expand and return new range", expected, actual);
+		
+	}
+	@Test
+	public void testNegativeExpand() {
+		Range target = new Range(2,6);
+		double lowerMargin = -0.25;
+		double upperMargin = -0.5;
+		
+		Range expected = new Range(3.0,4.0);
+		Range actual = Range.expand(target, lowerMargin, upperMargin);
+		assertEquals("Range should reduce and return new range", expected, actual);
+		
+	}
+	@Test
+	public void testZeroExpand() {
+		Range target = new Range(2,6);
+		double lowerMargin = 0;
+		double upperMargin = 0;
+		
+		Range expected = new Range(2.0,6.0);
+		Range actual = Range.expand(target, lowerMargin, upperMargin);
+		assertEquals("Range should not expand", expected, actual);
+		
+	}
+	// EXPAND TO INCLUDE TESTING METHODS
+	@Test
+	public void testExpandToIncludeNull() {
+		Range target = null;
+		double value = 19;
+		Range expected = new Range(19.0,19.0);
+		if (target == null) {
+			Range actual = Range.expandToInclude(target, value);
+			assertEquals("new range created with lower & upper = value", expected, actual);	
+		}
+	}
+	@Test
+	public void testExpandToIncludeValueLessThanLower() {
+		Range target = new Range(5,12);
+		Range expected = new Range(3.0,12.0);
+		double value = 3;
+		if (value < target.getLowerBound()) {
+			Range actual = Range.expandToInclude(target, value);
+			assertEquals("Range should expand and include value in new range", expected, actual);
+		}
+		
+	}
+	@Test
+	public void testExpandToIncludeValueGreaterThanUpper() {
+		Range target = new Range(5,12);
+		Range expected = new Range(5.0,19.0);
+		double value = 19;
+		if (value > target.getUpperBound()) {
+			Range actual = Range.expandToInclude(target, value);
+			assertEquals("Range should expand and include value in new range", expected, actual);	
+		}
+	}
 }
